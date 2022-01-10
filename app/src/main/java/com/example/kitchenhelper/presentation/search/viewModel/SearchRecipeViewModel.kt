@@ -3,7 +3,6 @@ package com.example.kitchenhelper.presentation.search.viewModel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
-import com.example.kitchenhelper.presentation.search.mappers.toPresentation
 import com.example.kitchenhelper.presentation.search.model.Recipe
 import com.example.kitchenhelper.presentation.search.model.RequestParams
 import com.example.kitchenhelper.presentation.search.repository.SearchRepository
@@ -26,13 +25,12 @@ class SearchRecipeViewModel(private val searchRepository: SearchRepository) : Vi
     fun searchRecipes(query: String) {
         viewModelScope.launch(Dispatchers.IO) {
             flow {
-                emit(searchRepository.getSearchRecipes(query).map { it.toPresentation() })
+                emit(searchRepository.getSearchRecipes(query))
             }
                 .catch {
                     error.emit(it)
                 }
                 .collect {
-                    recipes.emit(it)
                 }
 
         }

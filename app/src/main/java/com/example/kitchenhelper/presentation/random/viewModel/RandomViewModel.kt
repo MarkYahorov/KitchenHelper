@@ -19,24 +19,45 @@ import javax.inject.Provider
 class RandomViewModel(private val repository: RandomRepository) : ViewModel() {
 
     val randomRecipesFlow = MutableStateFlow<RandomRecipe?>(null)
+    val notLoadingFlow = MutableSharedFlow<Boolean>()
     val errorFlow = MutableSharedFlow<Throwable>()
+    var isIngredientsVisible = false
+    private var isLoading = false
 
     init {
         getRecipes()
     }
 
     fun getRecipes() {
-        viewModelScope.launch(Dispatchers.IO) {
-            repository.getRandomRecipes()
-                .map {list ->
-                    Log.e("TAG", "Dto $list")
-                    list.toPresentation() }
-                .catch { errorFlow.emit(it) }
-                .collect {
-                    Log.e("TAG", "$it")
-                }
+        if (!isLoading) {
+            isLoading = true
+            viewModelScope.launch(Dispatchers.IO) {
+                repository.getRandomRecipes()
+                    .map { list ->
+                        Log.e("TAG", "Dto $list")
+                        list[0].toPresentation()
+                    }
+                    .catch {
+                        errorFlow.emit(it)
+                        setEndLoading()
+                    }
+                    .collect {
+                        randomRecipesFlow.emit(it)
+                        setEndLoading()
+                    }
+            }
+        } else {
+            viewModelScope.launch(Dispatchers.IO) {
+                notLoadingFlow.emit(!isLoading)
+            }
         }
     }
+
+    private suspend fun setEndLoading() {
+        isLoading = false
+        notLoadingFlow.emit(isLoading)
+    }
+
 
     class Factory @Inject constructor(private val repository: Provider<RandomRepository>) :
         ViewModelProvider.Factory {

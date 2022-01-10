@@ -1,6 +1,7 @@
 package com.example.kitchenhelper.core.data.api
 
 import com.example.kitchenhelper.core.data.entities.RandomRecipeDto
+import com.example.kitchenhelper.core.data.entities.RandomResponse
 import com.example.kitchenhelper.core.data.entities.SearchResponse
 import retrofit2.http.GET
 import retrofit2.http.Path
@@ -15,5 +16,5 @@ interface RecipeService {
     suspend fun getInfoAboutRecipe(@Path("id") id: Int)
 
     @GET("recipes/random")
-    suspend fun getRandomRecipes(): RandomRecipeDto
+    suspend fun getRandomRecipes(): RandomResponse
 }

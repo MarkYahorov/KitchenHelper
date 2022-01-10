@@ -5,6 +5,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
@@ -12,7 +13,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.example.kitchenhelper.databinding.FragmentRandomBinding
-import com.example.kitchenhelper.presentation.random.adapter.RandomRecipeAdapter
+import com.example.kitchenhelper.presentation.random.adapter.IngredientsAdapter
 import com.example.kitchenhelper.presentation.random.di.RandomComponent
 import com.example.kitchenhelper.presentation.random.viewModel.RandomViewModel
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
@@ -29,7 +30,7 @@ class RandomFragment : Fragment() {
         Glide.with(this)
     }
     private val randomAdapter by lazy {
-        RandomRecipeAdapter()
+        IngredientsAdapter(glide)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -49,10 +50,27 @@ class RandomFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        showIngredients(randomViewModel.isIngredientsVisible)
         initRecycler()
+        getRecipe()
+        setSeeAllBtnClickListener()
+        setNotLoadingState()
+        setSwipeRefreshListener()
+        lifecycleScope.launchWhenStarted {
+            randomViewModel.errorFlow.collect { showErrorDialog(it) }
+        }
+    }
+
+    private fun setSwipeRefreshListener() {
+        randomViewBinding.randomSwipeRefresh.setOnRefreshListener {
+            randomViewModel.getRecipes()
+        }
+    }
+
+    private fun getRecipe() {
         lifecycleScope.launchWhenStarted {
             randomViewModel.randomRecipesFlow.collect {
-                if(it?.id != null) {
+                it?.let {
                     with(randomViewBinding) {
                         Log.e("TAG", "not null $it")
                         glide.load(it.image).diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
@@ -63,15 +81,31 @@ class RandomFragment : Fragment() {
                         recipeInstructions.text = it.instructions
                     }
                     randomAdapter.submitList(it.ingredients)
-                } else {
-                   Log.e("TAG", "fragment $it")
                 }
             }
         }
+    }
 
+    private fun setNotLoadingState() {
         lifecycleScope.launchWhenStarted {
-            randomViewModel.errorFlow.collect { showErrorDialog(it) }
+            randomViewModel.notLoadingFlow.collect {
+                randomViewBinding.randomSwipeRefresh.isRefreshing = it
+            }
         }
+    }
+
+    private fun setSeeAllBtnClickListener() {
+        with(randomViewBinding) {
+            recipeSeeAllBtn.setOnClickListener {
+                val isVisible = !randomViewModel.isIngredientsVisible
+                showIngredients(isVisible)
+                randomViewModel.isIngredientsVisible = isVisible
+            }
+        }
+    }
+
+    private fun showIngredients(isVisible: Boolean) {
+        randomViewBinding.ingredientsRecycler.isVisible = isVisible
     }
 
     private fun showEmptyState() {
@@ -95,5 +129,4 @@ class RandomFragment : Fragment() {
                 LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
         }
     }
-
 }

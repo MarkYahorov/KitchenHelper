@@ -7,6 +7,6 @@ import javax.inject.Inject
 class RandomRepositoryImpl @Inject constructor(private val recipeApi: RecipeService) :
     RandomRepository {
     override suspend fun getRandomRecipes() = flow {
-        emit(recipeApi.getRandomRecipes())
+        emit(recipeApi.getRandomRecipes().recipes)
     }
 }

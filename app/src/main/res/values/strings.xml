@@ -3,5 +3,21 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="search">Search</string>
-    <string name="see_all">See All</string>
+    <string name="see_all_ingredients">See Ingredients</string>
+    <string name="ready_time">Ready time</string>
+    <string name="servings">Quantity of servings</string>
+
+    <plurals name="minutes">
+        <item quantity="one">%d minute</item>
+        <item quantity="few">%d minutes</item>
+        <item quantity="many">%d minutes</item>
+        <item quantity="other">%d minutes</item>
+    </plurals>
+
+    <plurals name="servings">
+        <item quantity="one">%d minute</item>
+        <item quantity="few">%d servings</item>
+        <item quantity="many">%d servings</item>
+        <item quantity="other">%d servings</item>
+    </plurals>
 </resources>

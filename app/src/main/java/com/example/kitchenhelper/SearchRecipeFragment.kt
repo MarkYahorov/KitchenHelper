@@ -40,21 +40,9 @@ class SearchRecipeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        setSearchBtnClickListener()
         viewBinding.caloriesSeekBar.setOnRangeSeekBarChangeListener { bar, minValue, maxValue ->
             Log.e("TAG", "MIN $minValue  MAX $maxValue")
         }
     }
 
-    private fun setSearchBtnClickListener() {
-        with(viewBinding) {
-            searchBtn.setOnClickListener {
-                if (searchEditText.text.toString().isNotBlank()) {
-                    //todo переход на другой экран и передача данных
-                } else {
-                    Toast.makeText(requireContext(), "EMPTY TEXT", Toast.LENGTH_LONG).show()
-                }
-            }
-        }
-    }
 }

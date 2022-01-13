@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.RequestManager
 import com.bumptech.glide.load.engine.DiskCacheStrategy
+import com.example.kitchenhelper.R
 import com.example.kitchenhelper.databinding.IngridientsListItemBinding
 import com.example.kitchenhelper.presentation.random.model.Ingredients
 
@@ -27,6 +28,12 @@ class IngredientsAdapter(private val glide: RequestManager) :
         holder.bind(currentList[position])
     }
 
+    override fun onViewRecycled(holder: IngredientsViewHolder) {
+        holder.unBind()
+
+        super.onViewRecycled(holder)
+    }
+
     class IngredientsViewHolder(
         private val binding: IngridientsListItemBinding,
         private val glide: RequestManager
@@ -36,9 +43,15 @@ class IngredientsAdapter(private val glide: RequestManager) :
             with(binding) {
                 glide.load(DEFAULT_PATH_TO_IMAGE + ingredients.image).diskCacheStrategy(
                     DiskCacheStrategy.AUTOMATIC
-                ).into(ingredientImage)
+                ).placeholder(R.drawable.food_ic)
+                    .circleCrop()
+                    .into(ingredientImage)
                 ingredientsTitle.text = ingredients.originalString
             }
+        }
+
+        fun unBind() {
+            glide.clear(binding.ingredientImage)
         }
     }
 

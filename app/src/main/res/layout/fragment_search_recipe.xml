@@ -8,7 +8,7 @@
     tools:context=".SearchRecipeFragment">
 
     <EditText
-        android:id="@+id/search_edit_text"
+        android:id="@+id/search_fragment_edit_text"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="15dp"
@@ -20,14 +20,14 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
-        android:id="@+id/search_btn"
+        android:id="@+id/show_search_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/search"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/search_edit_text" />
+        app:layout_constraintTop_toBottomOf="@+id/search_fragment_edit_text" />
 
     <org.florescu.android.rangeseekbar.RangeSeekBar
         android:id="@+id/calories_seek_bar"
@@ -36,6 +36,6 @@
         android:layout_marginTop="68dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/search_edit_text" />
+        app:layout_constraintTop_toBottomOf="@+id/search_fragment_edit_text" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

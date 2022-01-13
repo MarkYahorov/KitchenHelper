@@ -1,97 +1,127 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.swiperefreshlayout.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.motion.widget.MotionLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/random_swipe_refresh"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    app:layoutDescription="@xml/fragment_random_scene"
     tools:context=".RandomFragment">
 
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:fillViewport="true">
+    <ImageView
+        android:id="@+id/show_search_btn"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="32dp"
+        android:background="@color/white_gray"
+        android:elevation="20dp"
+        android:src="@drawable/show_search_ic"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/search_container"
+        android:layout_width="1dp"
+        android:layout_height="1dp"
+        app:cardCornerRadius="20dp"
+        app:layout_constraintBottom_toBottomOf="@id/show_search_btn"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/show_search_btn"
+        app:layout_constraintTop_toTopOf="@id/show_search_btn">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
             <ImageView
-                android:id="@+id/recipe_image"
-                android:layout_width="match_parent"
-                android:layout_height="350dp"
-                android:layout_margin="16dp"
-                android:layout_marginBottom="24dp"
-                app:layout_constraintBottom_toTopOf="@+id/recipe_title"
-                app:layout_constraintEnd_toEndOf="parent"
+                android:id="@+id/search_btn"
+                android:layout_width="50dp"
+                android:layout_height="match_parent"
+                android:src="@drawable/search_ic"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/search_edit_text"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <TextView
-                android:id="@+id/recipe_title"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="24dp"
-                android:hint="ASdasf"
-                app:layout_constraintBottom_toTopOf="@+id/recipe_ready_time"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/recipe_image" />
-
-            <TextView
-                android:id="@+id/recipe_ready_time"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="32dp"
-                android:hint="ASdasf"
-                app:layout_constraintBottom_toTopOf="@+id/recipe_instructions"
-                app:layout_constraintEnd_toStartOf="@+id/recipe_servings"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/recipe_title" />
-
-            <TextView
-                android:id="@+id/recipe_servings"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:hint="ASdasf"
-                app:layout_constraintBottom_toBottomOf="@+id/recipe_ready_time"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/recipe_ready_time"
-                app:layout_constraintTop_toTopOf="@+id/recipe_ready_time" />
-
-            <TextView
-                android:id="@+id/recipe_instructions"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="60dp"
-                app:layout_constraintBottom_toTopOf="@+id/recipe_see_all_btn"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/recipe_ready_time" />
-
-            <TextView
-                android:id="@+id/recipe_see_all_btn"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:layout_marginEnd="32dp"
-                android:layout_marginBottom="32dp"
-                android:text="@string/see_all"
-                android:textSize="17sp"
-                app:drawableEndCompat="@drawable/see_all_ic"
-                app:layout_constraintBottom_toTopOf="@+id/ingredients_recycler"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/recipe_instructions" />
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/ingredients_recycler"
+            <EditText
+                android:id="@+id/search_edit_text"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:hint="@string/search"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/random_close_search_btn"
+                app:layout_constraintStart_toEndOf="@id/search_btn"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageView
+                android:id="@+id/random_close_search_btn"
+                android:layout_width="50dp"
+                android:layout_height="match_parent"
+                android:src="@drawable/close_ic"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/recipe_see_all_btn" />
+                app:layout_constraintStart_toEndOf="@id/search_edit_text"
+                app:layout_constraintTop_toTopOf="parent" />
         </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.cardview.widget.CardView>
 
-    </ScrollView>
-</androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+    <ImageView
+        android:id="@+id/recipe_image"
+        android:layout_width="match_parent"
+        android:layout_height="350dp"
+        app:layout_constraintBottom_toTopOf="@id/recipe_title"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_chainStyle="spread_inside" />
+
+    <TextView
+        android:id="@+id/recipe_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        app:layout_constraintBottom_toTopOf="@+id/recipe_ready_time"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/recipe_image" />
+
+    <TextView
+        android:id="@+id/recipe_ready_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        app:layout_constraintBottom_toTopOf="@+id/recipe_instructions"
+        app:layout_constraintEnd_toStartOf="@+id/recipe_servings"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/recipe_title" />
+
+    <TextView
+        android:id="@+id/recipe_servings"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="@+id/recipe_ready_time"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/recipe_ready_time"
+        app:layout_constraintTop_toTopOf="@+id/recipe_ready_time" />
+
+    <TextView
+        android:id="@+id/recipe_instructions"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="20dp"
+        android:layout_marginTop="60dp"
+        android:layout_marginBottom="32dp"
+        app:layout_constraintBottom_toTopOf="@id/ingredients_recycler"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/recipe_ready_time" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/ingredients_recycler"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/recipe_instructions" />
+
+</androidx.constraintlayout.motion.widget.MotionLayout>

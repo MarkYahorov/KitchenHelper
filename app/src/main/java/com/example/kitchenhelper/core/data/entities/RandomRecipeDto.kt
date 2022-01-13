@@ -4,17 +4,17 @@ import com.google.gson.annotations.SerializedName
 
 data class RandomRecipeDto(
     @SerializedName("id")
-    val id: Int?,
+    val id: Int,
     @SerializedName("title")
-    val title: String?,
+    val title: String,
     @SerializedName("readyInMinutes")
-    val readyTime: Int?,
+    val readyTime: Int,
     @SerializedName("image")
-    val image: String?,
+    val image: String,
     @SerializedName("servings")
-    val servings: Int?,
+    val servings: Int,
     @SerializedName("instructions")
-    val instructions: String?,
+    val instructions: String,
     @SerializedName("extendedIngredients")
-    val ingredients: List<IngredientsDto>?
+    val ingredients: List<IngredientsDto>
 )

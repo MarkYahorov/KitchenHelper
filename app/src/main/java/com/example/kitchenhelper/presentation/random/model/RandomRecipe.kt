@@ -7,5 +7,5 @@ data class RandomRecipe(
     val image: String,
     val servings: Int,
     val instructions: String,
-    val ingredients: List<Ingredients>
+    val ingredients: List<Ingredient>
 )

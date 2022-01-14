@@ -9,10 +9,13 @@ import com.bumptech.glide.RequestManager
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.example.kitchenhelper.R
 import com.example.kitchenhelper.databinding.IngridientsListItemBinding
-import com.example.kitchenhelper.presentation.random.model.Ingredients
+import com.example.kitchenhelper.presentation.random.model.Ingredient
 
-class IngredientsAdapter(private val glide: RequestManager) :
-    ListAdapter<Ingredients, IngredientsAdapter.IngredientsViewHolder>(DiffCallback()) {
+class IngredientsAdapter(
+    private val glide: RequestManager,
+    private val holderClicked: (Ingredient) -> Unit
+) :
+    ListAdapter<Ingredient, IngredientsAdapter.IngredientsViewHolder>(DiffCallback()) {
 
     companion object {
         private val DEFAULT_PATH_TO_IMAGE = "https://spoonacular.com/cdn/ingredients_100x100/"
@@ -21,7 +24,11 @@ class IngredientsAdapter(private val glide: RequestManager) :
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): IngredientsViewHolder {
         val itemBinding =
             IngridientsListItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-        return IngredientsViewHolder(itemBinding, glide)
+        return IngredientsViewHolder(itemBinding, glide).apply {
+            itemView.setOnClickListener {
+                holderClicked(currentList[adapterPosition])
+            }
+        }
     }
 
     override fun onBindViewHolder(holder: IngredientsViewHolder, position: Int) {
@@ -39,14 +46,14 @@ class IngredientsAdapter(private val glide: RequestManager) :
         private val glide: RequestManager
     ) :
         RecyclerView.ViewHolder(binding.root) {
-        fun bind(ingredients: Ingredients) {
+        fun bind(ingredient: Ingredient) {
             with(binding) {
-                glide.load(DEFAULT_PATH_TO_IMAGE + ingredients.image).diskCacheStrategy(
+                glide.load(DEFAULT_PATH_TO_IMAGE + ingredient.image).diskCacheStrategy(
                     DiskCacheStrategy.AUTOMATIC
                 ).placeholder(R.drawable.food_ic)
                     .circleCrop()
                     .into(ingredientImage)
-                ingredientsTitle.text = ingredients.originalString
+                ingredientsTitle.text = ingredient.originalString
             }
         }
 
@@ -55,11 +62,11 @@ class IngredientsAdapter(private val glide: RequestManager) :
         }
     }
 
-    class DiffCallback : DiffUtil.ItemCallback<Ingredients>() {
-        override fun areItemsTheSame(oldItem: Ingredients, newItem: Ingredients) =
+    class DiffCallback : DiffUtil.ItemCallback<Ingredient>() {
+        override fun areItemsTheSame(oldItem: Ingredient, newItem: Ingredient) =
             oldItem.id == newItem.id
 
-        override fun areContentsTheSame(oldItem: Ingredients, newItem: Ingredients) =
+        override fun areContentsTheSame(oldItem: Ingredient, newItem: Ingredient) =
             oldItem == newItem
     }
 }

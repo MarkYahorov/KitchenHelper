@@ -28,7 +28,6 @@ class RandomViewModel(private val repository: RandomRepository) : ViewModel() {
 
     private val pattern = Pattern.compile(CLEAR_TEXT_PATTERN)
     private val buffer = StringBuffer()
-    var isIngredientsVisible = false
     private var isLoading = false
 
     init {

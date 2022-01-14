@@ -5,10 +5,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
@@ -30,7 +30,9 @@ class RandomFragment : Fragment() {
         Glide.with(this)
     }
     private val randomAdapter by lazy {
-        IngredientsAdapter(glide)
+        IngredientsAdapter(glide) {
+
+        }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -50,7 +52,6 @@ class RandomFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        //showIngredients(randomViewModel.isIngredientsVisible)
         randomViewBinding.searchBtn.setOnClickListener {
             Toast.makeText(requireContext(), "asdfsadgasdg,Toast", Toast.LENGTH_LONG).show()
         }
@@ -65,15 +66,14 @@ class RandomFragment : Fragment() {
     override fun onStart() {
         super.onStart()
 
-        // setSeeAllBtnClickListener()
-        // setSwipeRefreshListener()
+        setRefreshListener()
     }
 
-//    private fun setSwipeRefreshListener() {
-//        randomViewBinding.randomSwipeRefresh.setOnRefreshListener {
-//            randomViewModel.getRecipes()
-//        }
-//    }
+    private fun setRefreshListener() {
+        randomViewBinding.randomRefreshLayout.setOnRefreshListener {
+            randomViewModel.getRecipes()
+        }
+    }
 
     private fun getRecipe() {
         lifecycleScope.launchWhenStarted {
@@ -119,23 +119,9 @@ class RandomFragment : Fragment() {
     private fun setNotLoadingState() {
         lifecycleScope.launchWhenStarted {
             randomViewModel.notLoadingFlow.collect {
-                //  randomViewBinding.randomSwipeRefresh.isRefreshing = it
+                  randomViewBinding.randomRefreshLayout.isRefreshing = it
             }
         }
-    }
-
-//    private fun setSeeAllBtnClickListener() {
-//        with(randomViewBinding) {
-//            recipeSeeIngredientsBtn.setOnClickListener {
-//                val isVisible = !randomViewModel.isIngredientsVisible
-//                showIngredients(isVisible)
-//                randomViewModel.isIngredientsVisible = isVisible
-//            }
-//        }
-//    }
-
-    private fun showIngredients(isVisible: Boolean) {
-        randomViewBinding.ingredientsRecycler.isVisible = isVisible
     }
 
     private fun showEmptyState() {

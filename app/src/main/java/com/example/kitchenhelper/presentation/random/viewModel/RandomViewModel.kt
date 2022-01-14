@@ -1,5 +1,6 @@
 package com.example.kitchenhelper.presentation.random.viewModel
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
@@ -16,7 +17,7 @@ import java.util.regex.Pattern
 import javax.inject.Inject
 import javax.inject.Provider
 
-class RandomViewModel(private val repository: RandomRepository) : ViewModel() {
+class RandomViewModel @Inject constructor(private val repository: RandomRepository) : ViewModel() {
 
     companion object {
         private const val CLEAR_TEXT_PATTERN = "<[a-z]+>|</[a-z]+>"
@@ -25,6 +26,7 @@ class RandomViewModel(private val repository: RandomRepository) : ViewModel() {
     val randomRecipesFlow = MutableStateFlow<RandomRecipe?>(null)
     val notLoadingFlow = MutableSharedFlow<Boolean>()
     val errorFlow = MutableSharedFlow<Throwable>()
+    var transitionId: Int? = null
 
     private val pattern = Pattern.compile(CLEAR_TEXT_PATTERN)
     private val buffer = StringBuffer()
@@ -53,7 +55,7 @@ class RandomViewModel(private val repository: RandomRepository) : ViewModel() {
             }
         } else {
             viewModelScope.launch(Dispatchers.IO) {
-                notLoadingFlow.emit(!isLoading)
+                notLoadingFlow.emit(false)
             }
         }
     }
@@ -63,12 +65,7 @@ class RandomViewModel(private val repository: RandomRepository) : ViewModel() {
         notLoadingFlow.emit(isLoading)
     }
 
-
-    class Factory @Inject constructor(private val repository: Provider<RandomRepository>) :
-        ViewModelProvider.Factory {
-        @Suppress("UNCHECKED_CAST")
-        override fun <T : ViewModel> create(modelClass: Class<T>): T {
-            return RandomViewModel(repository.get()) as T
-        }
+    fun transitionCompleted(transitionId: Int) {
+        this.transitionId = transitionId
     }
 }

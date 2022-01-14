@@ -12,7 +12,7 @@ class AppModule {
 
     companion object {
         private const val BASE_URL = "https://api.spoonacular.com/"
-        private const val API_KEY = "f4b0f88f0ca4465498e928c040466e89"
+        private const val API_KEY = "11ebd11f6ced49c2976ca04567cd15ec"
         private const val API_KEY_NAME = "apiKey"
     }
 

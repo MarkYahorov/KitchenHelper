@@ -6,6 +6,8 @@
     <string name="see_all_ingredients">See Ingredients</string>
     <string name="ready_time">Ready time</string>
     <string name="servings">Quantity of servings</string>
+    <string name="empty_string">Enter you query</string>
+    <string name="empty_state_text">Has not got a data</string>
 
     <plurals name="minutes">
         <item quantity="one">%d minute</item>

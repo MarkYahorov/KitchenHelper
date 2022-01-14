@@ -9,10 +9,18 @@
         android:id="@+id/searchRecipeFragment"
         android:name="com.example.kitchenhelper.SearchRecipeFragment"
         android:label="fragment_search_recipe"
-        tools:layout="@layout/fragment_search_recipe" />
+        tools:layout="@layout/fragment_search_recipe" >
+        <argument
+            android:name="recipe_query"
+            app:argType="string" />
+    </fragment>
     <fragment
         android:id="@+id/randomFragment"
         android:name="com.example.kitchenhelper.RandomFragment"
         android:label="fragment_random"
-        tools:layout="@layout/fragment_random" />
+        tools:layout="@layout/fragment_random" >
+        <action
+            android:id="@+id/action_randomFragment_to_searchRecipeFragment"
+            app:destination="@id/searchRecipeFragment" />
+    </fragment>
 </navigation>

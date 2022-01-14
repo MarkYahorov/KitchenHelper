@@ -3,12 +3,12 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <ConstraintSet android:id="@+id/start">
-        <Constraint android:id="@+id/recipe_image" />
+        <Constraint android:id="@+id/random_refresh_layout" />
     </ConstraintSet>
 
     <ConstraintSet android:id="@+id/hide_image_view">
         <Constraint
-            android:id="@id/recipe_image"
+            android:id="@id/random_refresh_layout"
             android:layout_width="match_parent"
             android:layout_height="1dp"
             app:layout_constraintEnd_toEndOf="parent"
@@ -71,7 +71,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
         <Constraint
-            android:id="@+id/recipe_image"
+            android:id="@+id/random_refresh_layout"
             android:layout_width="match_parent"
             android:layout_height="350dp"
             app:layout_constraintBottom_toTopOf="@id/recipe_title"
@@ -84,7 +84,7 @@
     <ConstraintSet android:id="@+id/end">
 
         <Constraint
-            android:id="@id/recipe_image"
+            android:id="@id/random_refresh_layout"
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:visibility="gone"
@@ -151,20 +151,21 @@
     </Transition>
 
     <Transition
+        app:constraintSetEnd="@id/hide_image_view"
+        app:constraintSetStart="@id/start">
+
+        <OnSwipe
+            app:touchAnchorId="@+id/random_refresh_layout"
+            app:touchAnchorSide="bottom" />
+    </Transition>
+
+    <Transition
         app:constraintSetEnd="@id/start"
         app:constraintSetStart="@id/show_search_container">
 
         <OnClick app:targetId="@+id/random_close_search_btn" />
     </Transition>
 
-
-    <Transition
-        app:constraintSetEnd="@id/start"
-        app:constraintSetStart="@+id/hide_image_view">
-        <OnSwipe
-            app:touchAnchorId="@+id/recipe_image"
-            app:touchAnchorSide="bottom" />
-    </Transition>
 
     <Transition
         app:constraintSetEnd="@id/end"

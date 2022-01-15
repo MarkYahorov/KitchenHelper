@@ -9,10 +9,15 @@ import java.util.regex.Pattern
 fun IngredientsDto.toPresentation() = Ingredient(id, image, originalString)
 fun RandomRecipeDto.toPresentation(pattern: Pattern, buffer: StringBuffer): RandomRecipe {
 
+    if (buffer.isNotEmpty()) {
+        buffer.delete(0, buffer.length)
+    }
+
     val matcher = pattern.matcher(instructions)
     while (matcher.find()) {
         matcher.appendReplacement(buffer, "")
     }
+
     return RandomRecipe(
         id,
         title,

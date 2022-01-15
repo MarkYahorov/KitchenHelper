@@ -1,8 +1,6 @@
 package com.example.kitchenhelper.presentation.random.viewModel
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.example.kitchenhelper.presentation.random.mappers.toPresentation
 import com.example.kitchenhelper.presentation.random.model.RandomRecipe
@@ -15,7 +13,6 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import java.util.regex.Pattern
 import javax.inject.Inject
-import javax.inject.Provider
 
 class RandomViewModel @Inject constructor(private val repository: RandomRepository) : ViewModel() {
 

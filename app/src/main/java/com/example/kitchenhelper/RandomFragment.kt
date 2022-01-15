@@ -116,23 +116,16 @@ class RandomFragment : Fragment() {
                 motionLayout: MotionLayout?,
                 startId: Int,
                 endId: Int
-            ) {
-                Log.e("TAG", "onTransitionStarted $startId")
-                Log.e("TAG", "onTransitionStarted $endId")
-            }
+            ) {}
 
             override fun onTransitionChange(
                 motionLayout: MotionLayout?,
                 startId: Int,
                 endId: Int,
                 progress: Float
-            ) {
-                Log.e("TAG", "onTransitionChange $startId")
-                Log.e("TAG", "onTransitionChange $endId")
-            }
+            ) {}
 
             override fun onTransitionCompleted(motionLayout: MotionLayout?, currentId: Int) {
-                Log.e("TAG", "onTransitionCompleted $currentId")
                 randomViewModel.transitionCompleted(currentId)
             }
 
@@ -141,9 +134,7 @@ class RandomFragment : Fragment() {
                 triggerId: Int,
                 positive: Boolean,
                 progress: Float
-            ) {
-                Log.e("TAG", "onTransitionTrigger $triggerId")
-            }
+            ) {}
         })
     }
 
@@ -227,8 +218,8 @@ class RandomFragment : Fragment() {
         }
         with(randomViewBinding) {
             randomRefreshLayout.setOnRefreshListener(null)
-//            searchBtn.setOnClickListener(null)
-//            randomMotion.setTransitionListener(null)
+            searchBtn.setOnClickListener(null)
+            randomMotion.setTransitionListener(null)
         }
 
         super.onStop()

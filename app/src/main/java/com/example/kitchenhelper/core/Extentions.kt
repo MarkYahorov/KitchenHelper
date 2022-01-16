@@ -1,6 +1,8 @@
 package com.example.kitchenhelper.core
 
-import android.content.Context
+import android.content.res.Resources
+import android.text.Editable
+import android.text.TextWatcher
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
@@ -23,4 +25,17 @@ inline fun <reified myViewModel : ViewModel> createViewModel(
         }
     }
     return ViewModelProvider(fragment, factory)[viewModel::class.java]
+}
+
+fun getQuantityString(pluralsId: Int, value: Int, firstInfo: String, resources: Resources?): String {
+    return StringBuilder()
+        .append(firstInfo)
+        .append(" : ")
+        .append(
+            resources?.getQuantityString(
+                pluralsId,
+                value,
+                value
+            )
+        ).toString()
 }

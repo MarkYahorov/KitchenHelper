@@ -1,11 +1,9 @@
-package com.example.kitchenhelper
+package com.example.kitchenhelper.presentation.random.screen
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.Window
 import android.widget.Toast
 import androidx.constraintlayout.motion.widget.MotionLayout
 import androidx.core.view.isVisible
@@ -15,7 +13,10 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
+import com.example.kitchenhelper.App
+import com.example.kitchenhelper.R
 import com.example.kitchenhelper.core.createViewModel
+import com.example.kitchenhelper.core.getQuantityString
 import com.example.kitchenhelper.databinding.FragmentRandomBinding
 import com.example.kitchenhelper.presentation.random.adapter.IngredientsAdapter
 import com.example.kitchenhelper.presentation.random.di.RandomComponent
@@ -103,7 +104,6 @@ class RandomFragment : Fragment() {
     private fun setRefreshListener() {
         with(randomViewBinding) {
             randomRefreshLayout.setOnRefreshListener {
-                Log.e("TAG", "setRefreshListener ${randomRefreshLayout.height}")
                 randomViewModel.getRecipes()
             }
         }
@@ -151,12 +151,14 @@ class RandomFragment : Fragment() {
                         recipeReadyTime.text = getQuantityString(
                             R.plurals.minutes,
                             it.readyTime,
-                            getString(R.string.ready_time)
+                            getString(R.string.ready_time),
+                            activity?.resources
                         )
                         recipeServings.text = getQuantityString(
                             R.plurals.servings,
                             it.servings,
-                            getString(R.string.servings)
+                            getString(R.string.servings),
+                            activity?.resources
                         )
                         recipeInstructions.text = it.instructions
                     }
@@ -164,20 +166,6 @@ class RandomFragment : Fragment() {
                 }
             }
         }
-    }
-
-
-    private fun getQuantityString(pluralsId: Int, value: Int, firstInfo: String): String {
-        return StringBuilder()
-            .append(firstInfo)
-            .append(" : ")
-            .append(
-                activity?.resources?.getQuantityString(
-                    pluralsId,
-                    value,
-                    value
-                )
-            ).toString()
     }
 
     private fun setNotLoadingState() {

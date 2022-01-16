@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/searchRecipeFragment"
-        android:name="com.example.kitchenhelper.SearchRecipeFragment"
+        android:name="com.example.kitchenhelper.presentation.search.screen.SearchRecipeFragment"
         android:label="fragment_search_recipe"
         tools:layout="@layout/fragment_search_recipe" >
         <argument
@@ -16,7 +16,7 @@
     </fragment>
     <fragment
         android:id="@+id/randomFragment"
-        android:name="com.example.kitchenhelper.RandomFragment"
+        android:name="com.example.kitchenhelper.presentation.random.screen.RandomFragment"
         android:label="fragment_random"
         tools:layout="@layout/fragment_random" >
         <action

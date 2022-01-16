@@ -1,41 +1,160 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.motion.widget.MotionLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".SearchRecipeFragment">
+    tools:context=".presentation.search.screen.SearchRecipeFragment"
+    app:layoutDescription="@xml/fragment_search_recipe_scene">
 
     <EditText
         android:id="@+id/search_fragment_edit_text"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="15dp"
         android:hint="@string/search"
         android:inputType="textPersonName"
+        android:imeOptions="actionSearch"
         android:textSize="20sp"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/search_recycler"
+        app:layout_constraintEnd_toStartOf="@id/search_filter_btn"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <Button
-        android:id="@+id/show_search_btn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/search"
+
+    <ImageView
+        android:id="@+id/search_filter_btn"
+        android:layout_width="30dp"
+        android:layout_height="0dp"
+        app:layout_constraintTop_toTopOf="@id/search_fragment_edit_text"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/search_fragment_edit_text"
+        app:layout_constraintBottom_toBottomOf="@id/search_fragment_edit_text"
+        android:src="@drawable/filter_ic" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/search_recycler"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/search_fragment_edit_text" />
 
-    <org.florescu.android.rangeseekbar.RangeSeekBar
-        android:id="@+id/calories_seek_bar"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="68dp"
+    <FrameLayout
+        android:id="@+id/search_filter_layout"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/filter_background"
+        android:clickable="true"
+        android:elevation="20dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/search_fragment_edit_text" />
+        app:layout_constraintStart_toStartOf="parent">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <com.google.android.material.card.MaterialCardView
+            style="@style/MyCardView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:backgroundTint="@color/white_gray">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:id="@+id/search_close_filter_btn"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    android:src="@drawable/close_ic"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginEnd="10dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+                <TextView
+                    android:id="@+id/search_calories_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="5dp"
+                    android:text="@string/calories"
+                    android:textSize="25sp"
+                    app:layout_constraintBottom_toBottomOf="@id/search_calories_seek_bar"
+                    app:layout_constraintEnd_toStartOf="@id/search_calories_seek_bar"
+                    app:layout_constraintStart_toStartOf="parent" />
+
+                <org.florescu.android.rangeseekbar.RangeSeekBar
+                    android:id="@+id/search_calories_seek_bar"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="32dp"
+                    android:layout_marginBottom="32dp"
+                    app:absoluteMinValue="800"
+                    app:absoluteMaxValue="50"
+                    app:layout_constraintBottom_toTopOf="@id/search_ready_time_edit_text"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/search_calories_name"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_chainStyle="packed" />
+
+                <TextView
+                    android:id="@+id/search_ready_time_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="5dp"
+                    android:text="@string/max_ready_time"
+                    android:textSize="25sp"
+                    app:layout_constraintBottom_toBottomOf="@+id/search_ready_time_edit_text"
+                    app:layout_constraintEnd_toStartOf="@+id/search_ready_time_edit_text"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/search_ready_time_edit_text" />
+
+                <EditText
+                    android:id="@+id/search_ready_time_edit_text"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="32dp"
+                    android:inputType="number"
+                    android:layout_marginBottom="32dp"
+                    app:layout_constraintBottom_toTopOf="@+id/equipment_edit_text"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/search_ready_time_text"
+                    app:layout_constraintTop_toBottomOf="@id/search_calories_seek_bar" />
+
+                <TextView
+                    android:id="@+id/equipment_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/equipment"
+                    android:textSize="25sp"
+                    app:layout_constraintBottom_toBottomOf="@id/equipment_edit_text"
+                    app:layout_constraintEnd_toStartOf="@+id/equipment_edit_text"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/equipment_edit_text" />
+
+                <EditText
+                    android:id="@+id/equipment_edit_text"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="32dp"
+                    app:layout_constraintBottom_toTopOf="@+id/search_btn"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/equipment_text"
+                    app:layout_constraintTop_toBottomOf="@id/search_ready_time_edit_text" />
+
+                <Button
+                    android:id="@id/search_btn"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="35dp"
+                    android:layout_marginTop="32dp"
+                    android:text="@string/search"
+                    android:layout_marginBottom="32dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/equipment_edit_text" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </com.google.android.material.card.MaterialCardView>
+    </FrameLayout>
+</androidx.constraintlayout.motion.widget.MotionLayout>

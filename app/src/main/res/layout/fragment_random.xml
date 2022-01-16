@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     app:layoutDescription="@xml/fragment_random_scene"
-    tools:context=".RandomFragment">
+    tools:context=".presentation.random.screen.RandomFragment">
 
     <ImageView
         android:id="@+id/show_search_btn"
@@ -122,6 +122,7 @@
         android:layout_marginHorizontal="20dp"
         android:layout_marginTop="60dp"
         android:layout_marginBottom="32dp"
+        android:scrollbars="vertical"
         app:layout_constraintBottom_toTopOf="@id/ingredients_recycler"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

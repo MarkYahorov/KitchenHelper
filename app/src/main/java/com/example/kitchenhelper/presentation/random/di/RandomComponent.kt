@@ -1,6 +1,6 @@
 package com.example.kitchenhelper.presentation.random.di
 
-import com.example.kitchenhelper.RandomFragment
+import com.example.kitchenhelper.presentation.random.screen.RandomFragment
 import com.example.kitchenhelper.core.di.AppComponent
 import com.example.kitchenhelper.core.di.ScreenScope
 import com.example.kitchenhelper.presentation.random.viewModel.RandomViewModel

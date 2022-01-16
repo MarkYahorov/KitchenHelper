@@ -1,43 +1,51 @@
 package com.example.kitchenhelper.presentation.search.viewModel
 
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
+import com.example.kitchenhelper.presentation.search.mappers.toPresentation
 import com.example.kitchenhelper.presentation.search.model.Recipe
 import com.example.kitchenhelper.presentation.search.model.RequestParams
 import com.example.kitchenhelper.presentation.search.repository.SearchRepository
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.MutableSharedFlow
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.catch
-import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import javax.inject.Inject
-import javax.inject.Provider
 
-class SearchRecipeViewModel(private val searchRepository: SearchRepository) : ViewModel() {
+class SearchRecipeViewModel @Inject constructor(private val searchRepository: SearchRepository) :
+    ViewModel() {
 
     val recipes = MutableStateFlow<List<Recipe>>(emptyList())
+    val emptyStateFlow = MutableSharedFlow<Boolean>()
     val error = MutableSharedFlow<Throwable>()
 
-    val requestParams = RequestParams(null, null, null)
+    val requestParams = RequestParams("", null, null)
 
-    fun searchRecipes(query: String) {
+    fun searchRecipes() {
         viewModelScope.launch(Dispatchers.IO) {
             flow {
-                emit(searchRepository.getSearchRecipes(query))
-            }
-                .catch {
-                    error.emit(it)
+                with(requestParams) {
+                    emit(
+                        searchRepository.getSearchRecipes(
+                            query,
+                            equipment,
+                            maxReadyTime,
+                            calories?.first,
+                            calories?.second
+                        )
+                    )
                 }
+            }
+                .map { list -> list.map { it.toPresentation() } }
+                .catch { error.emit(it) }
                 .collect {
+                    if (it.isNotEmpty()) {
+                        recipes.emit(it)
+                    } else {
+                        emptyStateFlow.emit(value = true)
+                    }
                 }
 
         }
-    }
-
-    fun setQuery(query: String) {
-        requestParams.query = query
     }
 
     fun setEquipment(equipment: String) {
@@ -50,13 +58,5 @@ class SearchRecipeViewModel(private val searchRepository: SearchRepository) : Vi
 
     fun setCalories(calories: Pair<Int,Int>){
         requestParams.calories = calories
-    }
-
-    class Factory @Inject constructor(private val searchRepository: Provider<SearchRepository>) :
-        ViewModelProvider.Factory {
-        @Suppress("UNCHECKED_CAST")
-        override fun <T : ViewModel> create(modelClass: Class<T>): T {
-            return SearchRecipeViewModel(searchRepository.get()) as T
-        }
     }
 }

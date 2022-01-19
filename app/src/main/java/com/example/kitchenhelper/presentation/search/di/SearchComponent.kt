@@ -18,6 +18,10 @@ interface SearchComponent {
                 it.inject(fragment)
             }
         }
+
+        fun clear() {
+            component = null
+        }
     }
 
     @Component.Factory

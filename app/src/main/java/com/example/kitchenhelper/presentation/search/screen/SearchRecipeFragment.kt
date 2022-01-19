@@ -1,14 +1,14 @@
 package com.example.kitchenhelper.presentation.search.screen
 
+import android.content.Context
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import android.util.Log
-import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
+import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
@@ -23,8 +23,14 @@ import com.example.kitchenhelper.presentation.search.adapter.SearchListAdapter
 import com.example.kitchenhelper.presentation.search.di.SearchComponent
 import com.example.kitchenhelper.presentation.search.viewModel.SearchRecipeViewModel
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 
 class SearchRecipeFragment : Fragment() {
+
+    companion object {
+        private const val FIRST_POSITION = 1
+    }
 
     private val args by navArgs<SearchRecipeFragmentArgs>()
     private lateinit var viewBinding: FragmentSearchRecipeBinding
@@ -35,11 +41,13 @@ class SearchRecipeFragment : Fragment() {
     private val searchAdapter by lazy {
         SearchListAdapter(Glide.with(this))
     }
+    private val methodManager =
+        requireContext().getSystemService(Context.INPUT_METHOD_SERVICE) as? InputMethodManager
     private val queryTextWatcher = object : TextWatcher {
         override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
 
         override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-            s?.let { searchViewModel.requestParams.query = s.toString() }
+            s?.let { searchViewModel.setQuery(s.toString()) }
         }
 
         override fun afterTextChanged(s: Editable?) {}
@@ -50,9 +58,9 @@ class SearchRecipeFragment : Fragment() {
 
         override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
             if (s != null && s.toString() != "") {
-                searchViewModel.requestParams.equipment = s.toString()
+                searchViewModel.setEquipment(s.toString())
             } else {
-                searchViewModel.requestParams.equipment = null
+                searchViewModel.setEquipment(null)
             }
         }
 
@@ -64,7 +72,9 @@ class SearchRecipeFragment : Fragment() {
 
         override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
             if (s != null && s.toString() != "") {
-                searchViewModel.requestParams.maxReadyTime = s.toString().toInt()
+                searchViewModel.setMaxReadyTime(s.toString().toInt())
+            } else {
+                searchViewModel.setMaxReadyTime(null)
             }
         }
 
@@ -87,15 +97,20 @@ class SearchRecipeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         if (savedInstanceState == null) {
-            searchViewModel.requestParams.query = args.recipeQuery
+            searchViewModel.setQuery(args.recipeQuery)
             getRecipes()
         }
         setTextToEditText()
         initRecycler()
-        lifecycleScope.launchWhenStarted {
-            searchViewModel.recipes.collect { searchAdapter.submitList(it) }
+
+        lifecycleScope.launch {
+            searchViewModel.recipesFlow.collectLatest { data ->
+                data?.let {
+                    searchAdapter.submitData(it)
+                }
+            }
         }
-        lifecycleScope.launchWhenStarted {
+        lifecycleScope.launch {
             searchViewModel.error.collect { showErrorDialog(it) }
         }
         changeEditTextKeyboardAction()
@@ -103,15 +118,18 @@ class SearchRecipeFragment : Fragment() {
 
     private fun changeEditTextKeyboardAction() {
         with(viewBinding) {
-            searchFragmentEditText.setOnEditorActionListener { v, actionId, event ->
+            searchFragmentEditText.setOnEditorActionListener { _, actionId, _ ->
                 if (actionId == EditorInfo.IME_ACTION_SEARCH) {
                     getRecipes()
+                    methodManager?.hideSoftInputFromWindow(searchFragmentEditText.windowToken, 0)
+                    searchRecycler.scrollToPosition(FIRST_POSITION)
+                    true
+                } else {
+                    false
                 }
-                false
             }
         }
     }
-
 
     private fun showErrorDialog(throwable: Throwable) {
         MaterialAlertDialogBuilder(requireContext())
@@ -141,7 +159,6 @@ class SearchRecipeFragment : Fragment() {
         setRangeCaloriesListener()
     }
 
-
     private fun setRangeCaloriesListener() {
         viewBinding.searchCaloriesSeekBar.setOnRangeSeekBarChangeListener { _, minValue, maxValue ->
             if (minValue is Int && maxValue is Int) {
@@ -155,6 +172,7 @@ class SearchRecipeFragment : Fragment() {
             searchBtn.setOnClickListener {
                 if (searchFragmentEditText.text.isBlank()) {
                     getRecipes()
+                    searchRecycler.scrollToPosition(0)
                 } else {
                     Toast.makeText(requireContext(), R.string.empty_string, Toast.LENGTH_LONG)
                         .show()
@@ -172,7 +190,7 @@ class SearchRecipeFragment : Fragment() {
     }
 
     private fun setTextToEditText() {
-        viewBinding.searchFragmentEditText.setText(searchViewModel.requestParams.query)
+        viewBinding.searchFragmentEditText.setText(searchViewModel.getQuery())
     }
 
     private fun getRecipes() {
@@ -186,6 +204,9 @@ class SearchRecipeFragment : Fragment() {
             equipmentEditText.removeTextChangedListener(equipmentTextWatcher)
             searchBtn.setOnClickListener(null)
             searchCaloriesSeekBar.setOnRangeSeekBarChangeListener(null)
+        }
+        if (requireActivity().isFinishing) {
+            SearchComponent.clear()
         }
         super.onStop()
     }

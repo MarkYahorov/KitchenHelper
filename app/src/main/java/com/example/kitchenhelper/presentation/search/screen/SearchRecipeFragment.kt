@@ -41,8 +41,9 @@ class SearchRecipeFragment : Fragment() {
     private val searchAdapter by lazy {
         SearchListAdapter(Glide.with(this))
     }
-    private val methodManager =
+    private val methodManager by lazy {
         requireContext().getSystemService(Context.INPUT_METHOD_SERVICE) as? InputMethodManager
+    }
     private val queryTextWatcher = object : TextWatcher {
         override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
 
@@ -121,14 +122,18 @@ class SearchRecipeFragment : Fragment() {
             searchFragmentEditText.setOnEditorActionListener { _, actionId, _ ->
                 if (actionId == EditorInfo.IME_ACTION_SEARCH) {
                     getRecipes()
-                    methodManager?.hideSoftInputFromWindow(searchFragmentEditText.windowToken, 0)
-                    searchRecycler.scrollToPosition(FIRST_POSITION)
+                    setNewLoadingState(searchFragmentEditText)
                     true
                 } else {
                     false
                 }
             }
         }
+    }
+
+    private fun setNewLoadingState(view: View) {
+        methodManager?.hideSoftInputFromWindow(view.windowToken, 0)
+        viewBinding.searchRecycler.scrollToPosition(FIRST_POSITION)
     }
 
     private fun showErrorDialog(throwable: Throwable) {
@@ -172,7 +177,7 @@ class SearchRecipeFragment : Fragment() {
             searchBtn.setOnClickListener {
                 if (searchFragmentEditText.text.isBlank()) {
                     getRecipes()
-                    searchRecycler.scrollToPosition(0)
+                    viewBinding.searchRecycler.scrollToPosition(FIRST_POSITION)
                 } else {
                     Toast.makeText(requireContext(), R.string.empty_string, Toast.LENGTH_LONG)
                         .show()

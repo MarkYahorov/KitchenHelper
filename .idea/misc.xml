@@ -5,10 +5,9 @@
       <map>
         <entry key="../../../../layout/custom_preview.xml" value="0.9" />
         <entry key="..\:/Users/Lenovo/AndroidStudioProjects/KitchenHelper/app/src/main/res/layout/activity_main.xml" value="0.1" />
-        <entry key="..\:/Users/Lenovo/AndroidStudioProjects/KitchenHelper/app/src/main/res/layout/fragment_random.xml" value="0.1134453781512605" />
-        <entry key="..\:/Users/Lenovo/AndroidStudioProjects/KitchenHelper/app/src/main/res/layout/fragment_search_recipe.xml" value="0.22" />
+        <entry key="..\:/Users/Lenovo/AndroidStudioProjects/KitchenHelper/app/src/main/res/layout/fragment_random.xml" value="0.10666666666666667" />
+        <entry key="..\:/Users/Lenovo/AndroidStudioProjects/KitchenHelper/app/src/main/res/layout/fragment_search_recipe.xml" value="0.10666666666666667" />
         <entry key="..\:/Users/Lenovo/AndroidStudioProjects/KitchenHelper/app/src/main/res/layout/ingridients_list_item.xml" value="0.1" />
-        <entry key="..\:/Users/Lenovo/AndroidStudioProjects/KitchenHelper/app/src/main/res/layout/recipe_item.xml" value="0.16666666666666666" />
         <entry key="..\:/Users/Lenovo/AndroidStudioProjects/KitchenHelper/app/src/main/res/layout/recipe_list_item.xml" value="0.12" />
         <entry key="app/src/main/res/drawable/more_ic.xml" value="0.3953125" />
         <entry key="app/src/main/res/drawable/recycler_divider.xml" value="0.2833333333333333" />
@@ -18,6 +17,7 @@
         <entry key="app/src/main/res/layout/fragment_random.xml" value="0.1" />
         <entry key="app/src/main/res/layout/fragment_search_recipe.xml" value="0.21354166666666666" />
         <entry key="app/src/main/res/layout/ingridients_list_item.xml" value="0.33" />
+        <entry key="app/src/main/res/layout/recipe_item.xml" value="0.37916666666666665" />
       </map>
     </option>
   </component>

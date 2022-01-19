@@ -10,6 +10,7 @@ interface RecipeService {
     @GET("recipes/complexSearch")
     suspend fun getSearchRecipes(
         @Query("query") query: String,
+        @Query("offset") page: Int = 0,
         @Query("equipment") equipment: String? = null,
         @Query("maxReadyTime") cookingTime: Int? = null,
         @Query("minCalories") minCalories: Int? = null,

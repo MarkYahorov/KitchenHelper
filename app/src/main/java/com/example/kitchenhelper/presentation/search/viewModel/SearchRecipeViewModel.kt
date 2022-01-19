@@ -2,61 +2,71 @@ package com.example.kitchenhelper.presentation.search.viewModel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.paging.PagingData
+import androidx.paging.map
 import com.example.kitchenhelper.presentation.search.mappers.toPresentation
 import com.example.kitchenhelper.presentation.search.model.Recipe
 import com.example.kitchenhelper.presentation.search.model.RequestParams
 import com.example.kitchenhelper.presentation.search.repository.SearchRepository
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-class SearchRecipeViewModel @Inject constructor(private val searchRepository: SearchRepository) :
+class SearchRecipeViewModel @Inject constructor(
+    private val searchRepository: SearchRepository,
+    private val requestParams: RequestParams
+) :
     ViewModel() {
 
-    val recipes = MutableStateFlow<List<Recipe>>(emptyList())
+    val recipesFlow = MutableStateFlow<PagingData<Recipe>?>(null)
     val emptyStateFlow = MutableSharedFlow<Boolean>()
     val error = MutableSharedFlow<Throwable>()
-
-    val requestParams = RequestParams("", null, null)
+    private var isLoading = false
 
     fun searchRecipes() {
-        viewModelScope.launch(Dispatchers.IO) {
-            flow {
-                with(requestParams) {
-                    emit(
-                        searchRepository.getSearchRecipes(
-                            query,
-                            equipment,
-                            maxReadyTime,
-                            calories?.first,
-                            calories?.second
-                        )
-                    )
-                }
-            }
-                .map { list -> list.map { it.toPresentation() } }
-                .catch { error.emit(it) }
-                .collect {
-                    if (it.isNotEmpty()) {
-                        recipes.emit(it)
-                    } else {
-                        emptyStateFlow.emit(value = true)
+        if (!isLoading) {
+            isLoading = true
+            viewModelScope.launch(Dispatchers.IO) {
+                searchRepository.getSearchRecipes(requestParams)
+                    .map { pagingData ->
+                        pagingData.map { it.toPresentation() }
                     }
-                }
+                    .catch { handleError(it) }
+                    .collect { handleResult(it) }
 
+            }
         }
     }
 
-    fun setEquipment(equipment: String) {
+    private suspend fun handleResult(recipes: PagingData<Recipe>) {
+        recipesFlow.emit(recipes)
+        isLoading = false
+    }
+
+    private suspend fun handleError(throwable: Throwable) {
+        error.emit(throwable)
+        isLoading = false
+    }
+
+    fun setEquipment(equipment: String?) {
         requestParams.equipment = equipment
     }
 
-    fun setMaxReadyTime(time: Int) {
+    fun setMaxReadyTime(time: Int?) {
         requestParams.maxReadyTime = time
     }
 
-    fun setCalories(calories: Pair<Int,Int>){
+    fun setCalories(calories: Pair<Int, Int>) {
         requestParams.calories = calories
     }
+
+    fun setQuery(query: String) {
+        requestParams.query = query
+    }
+
+    fun getQuery() = requestParams.query
 }

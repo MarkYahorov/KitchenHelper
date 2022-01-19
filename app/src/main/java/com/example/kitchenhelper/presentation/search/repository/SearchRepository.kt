@@ -1,14 +1,13 @@
 package com.example.kitchenhelper.presentation.search.repository
 
+import androidx.paging.PagingData
 import com.example.kitchenhelper.core.data.entities.RecipeDto
+import com.example.kitchenhelper.presentation.search.model.RequestParams
+import kotlinx.coroutines.flow.Flow
 
 interface SearchRepository {
 
     suspend fun getSearchRecipes(
-        query: String,
-        equipment: String? = null,
-        maxReadyTime: Int? = null,
-        minCalories: Int? = null,
-        maxCalories: Int? = null
-    ): List<RecipeDto>
+        requestParams: RequestParams
+    ): Flow<PagingData<RecipeDto>>
 }

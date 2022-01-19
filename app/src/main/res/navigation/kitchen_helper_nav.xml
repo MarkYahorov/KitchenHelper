@@ -13,6 +13,9 @@
         <argument
             android:name="recipe_query"
             app:argType="string" />
+        <action
+            android:id="@+id/action_searchRecipeFragment_to_ingredientScreen"
+            app:destination="@id/recipeInfoScreen" />
     </fragment>
     <fragment
         android:id="@+id/randomFragment"
@@ -22,5 +25,14 @@
         <action
             android:id="@+id/action_randomFragment_to_searchRecipeFragment"
             app:destination="@id/searchRecipeFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/recipeInfoScreen"
+        android:name="com.example.kitchenhelper.presentation.recipeInfo.screen.RecipeInformationScreen"
+        android:label="fragment_recipe_info_scren"
+        tools:layout="@layout/fragment_recipe_information" >
+        <argument
+            android:name="recipeId"
+            app:argType="integer" />
     </fragment>
 </navigation>

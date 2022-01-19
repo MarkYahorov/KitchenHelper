@@ -1,6 +1,7 @@
 package com.example.kitchenhelper.core.data.api
 
 import com.example.kitchenhelper.core.data.entities.RandomResponse
+import com.example.kitchenhelper.core.data.entities.RecipeDto
 import com.example.kitchenhelper.core.data.entities.SearchResponse
 import retrofit2.http.GET
 import retrofit2.http.Path
@@ -17,8 +18,8 @@ interface RecipeService {
         @Query("maxCalories") maxCalories: Int? = null
     ): SearchResponse
 
-    @GET
-    suspend fun getInfoAboutRecipe(@Path("id") id: Int)
+    @GET("recipes/{id}/information")
+    suspend fun getInfoAboutRecipe(@Path("id") id: Int): RecipeDto
 
     @GET("recipes/random")
     suspend fun getRandomRecipes(): RandomResponse

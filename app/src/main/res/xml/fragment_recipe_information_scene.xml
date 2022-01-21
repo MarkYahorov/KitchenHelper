@@ -3,88 +3,58 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <ConstraintSet android:id="@+id/start">
-        <Constraint android:id="@+id/random_refresh_layout" />
+        <Constraint android:id="@+id/recipe_info_image" />
     </ConstraintSet>
 
     <ConstraintSet android:id="@+id/hide_image_view">
         <Constraint
-            android:id="@id/random_refresh_layout"
+            android:id="@id/recipe_info_image"
             android:layout_width="match_parent"
             android:layout_height="1dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
         <Constraint
-            android:id="@+id/recipe_title"
+            android:id="@+id/recipe_info_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
         <Constraint
-            android:id="@+id/recipe_ready_time"
+            android:id="@+id/recipe_info_ready_time"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="32dp"
             app:layout_constraintEnd_toStartOf="@+id/recipe_servings"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/recipe_title" />
+            app:layout_constraintTop_toBottomOf="@+id/recipe_info_title" />
         <Constraint
-            android:id="@+id/recipe_instructions"
+            android:id="@+id/recipe_info_instructions"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
             android:layout_marginTop="32dp"
             android:layout_marginEnd="20dp"
-            app:layout_constraintBottom_toTopOf="@id/ingredients_recycler"
+            app:layout_constraintBottom_toTopOf="@id/ingredients_info_recycler"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/recipe_ready_time" />
+            app:layout_constraintTop_toBottomOf="@+id/recipe_info_ready_time" />
         <Constraint
-            android:id="@+id/ingredients_recycler"
+            android:id="@+id/ingredients_info_recycler"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_marginTop="32dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/recipe_instructions"
+            app:layout_constraintTop_toBottomOf="@+id/recipe_info_instructions"
             app:transitionEasing="linear" />
-        <Constraint
-            android:id="@+id/show_search_btn"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:visibility="gone" />
-    </ConstraintSet>
-
-    <ConstraintSet android:id="@+id/show_search_container">
-        <Constraint
-            android:id="@+id/show_search_btn"
-            android:visibility="gone"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-        <Constraint
-            android:id="@+id/search_container"
-            android:layout_width="0dp"
-            android:layout_height="50dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-        <Constraint
-            android:id="@+id/random_refresh_layout"
-            android:layout_width="match_parent"
-            android:layout_height="350dp"
-            app:layout_constraintBottom_toTopOf="@id/recipe_title"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/search_container"
-            app:layout_constraintVertical_chainStyle="spread_inside" />
     </ConstraintSet>
 
     <ConstraintSet android:id="@+id/end">
-
         <Constraint
-            android:id="@id/random_refresh_layout"
+            android:id="@id/recipe_info_image"
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:visibility="gone"
@@ -93,7 +63,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <Constraint
-            android:id="@+id/recipe_title"
+            android:id="@+id/recipe_info_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:visibility="gone"
@@ -101,28 +71,28 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
         <Constraint
-            android:id="@+id/recipe_ready_time"
+            android:id="@+id/recipe_info_ready_time"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:visibility="gone"
-            app:layout_constraintEnd_toStartOf="@+id/recipe_servings"
+            app:layout_constraintEnd_toStartOf="@+id/recipe_info_servings"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/recipe_title" />
+            app:layout_constraintTop_toBottomOf="@+id/recipe_info_title" />
 
         <Constraint
-            android:id="@+id/recipe_servings"
+            android:id="@+id/recipe_info_servings"
             android:visibility="gone" />
         <Constraint
-            android:id="@+id/recipe_instructions"
+            android:id="@+id/recipe_info_instructions"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:visibility="gone"
-            app:layout_constraintBottom_toTopOf="@id/ingredients_recycler"
+            app:layout_constraintBottom_toTopOf="@id/ingredients_info_recycler"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/recipe_ready_time" />
+            app:layout_constraintTop_toBottomOf="@+id/recipe_info_ready_time" />
         <Constraint
-            android:id="@+id/ingredients_recycler"
+            android:id="@+id/ingredients_info_recycler"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_marginStart="20dp"
@@ -132,25 +102,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:transitionEasing="linear" />
-        <Constraint
-            android:id="@+id/show_search_btn"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:visibility="gone" />
-        <Constraint
-            android:id="@+id/search_container"
-            android:layout_width="1dp"
-            android:layout_height="1dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/show_search_btn"
-            app:layout_constraintTop_toTopOf="@id/show_search_btn" />
     </ConstraintSet>
-
-    <Transition
-        app:constraintSetEnd="@id/show_search_container"
-        app:constraintSetStart="@id/start">
-        <OnClick app:targetId="@+id/show_search_btn" />
-    </Transition>
 
     <Transition
         android:id="@+id/start_hide"
@@ -158,15 +110,8 @@
         app:constraintSetStart="@id/start">
 
         <OnSwipe
-            app:touchAnchorId="@+id/random_refresh_layout"
+            app:touchAnchorId="@+id/recipe_info_image"
             app:touchAnchorSide="bottom" />
-    </Transition>
-
-    <Transition
-        app:constraintSetEnd="@id/start"
-        app:constraintSetStart="@id/show_search_container">
-
-        <OnClick app:targetId="@+id/random_close_search_btn" />
     </Transition>
 
 
@@ -175,8 +120,7 @@
         app:constraintSetEnd="@id/end"
         app:constraintSetStart="@+id/hide_image_view">
         <OnSwipe
-            app:touchAnchorId="@+id/recipe_instructions"
+            app:touchAnchorId="@+id/recipe_info_instructions"
             app:touchAnchorSide="bottom" />
     </Transition>
-
 </MotionScene>

@@ -3,6 +3,7 @@ package com.example.kitchenhelper.presentation.search.viewModel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
+import androidx.paging.cachedIn
 import androidx.paging.map
 import com.example.kitchenhelper.presentation.search.mappers.toPresentation
 import com.example.kitchenhelper.presentation.search.model.Recipe
@@ -32,6 +33,7 @@ class SearchRecipeViewModel @Inject constructor(
             isLoading = true
             viewModelScope.launch(Dispatchers.IO) {
                 searchRepository.getSearchRecipes(requestParams)
+                    .cachedIn(viewModelScope)
                     .map { pagingData ->
                         pagingData.map { it.toPresentation() }
                     }

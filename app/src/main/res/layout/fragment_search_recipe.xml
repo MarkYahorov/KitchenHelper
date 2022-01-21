@@ -137,13 +137,13 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="32dp"
-                    app:layout_constraintBottom_toTopOf="@+id/search_btn"
+                    app:layout_constraintBottom_toTopOf="@+id/search_recipe_btn"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@id/equipment_text"
                     app:layout_constraintTop_toBottomOf="@id/search_ready_time_edit_text" />
 
                 <Button
-                    android:id="@id/search_btn"
+                    android:id="@id/search_recipe_btn"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="35dp"

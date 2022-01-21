@@ -10,12 +10,15 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.example.kitchenhelper.databinding.RecipeItemBinding
 import com.example.kitchenhelper.presentation.search.model.Recipe
 
-class SearchListAdapter(private val glide: RequestManager) :
+class SearchListAdapter(
+    private val glide: RequestManager,
+    private val recipeClick: (Recipe) -> Unit
+) :
     PagingDataAdapter<Recipe, SearchListAdapter.ViewHolder>(SearchDiffCallBack()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val binding = RecipeItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-        return ViewHolder(binding, glide)
+        return ViewHolder(binding, glide, recipeClick)
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
@@ -30,7 +33,11 @@ class SearchListAdapter(private val glide: RequestManager) :
         super.onViewRecycled(holder)
     }
 
-    class ViewHolder(private val binding: RecipeItemBinding, private val glide: RequestManager) :
+    class ViewHolder(
+        private val binding: RecipeItemBinding,
+        private val glide: RequestManager,
+        private val recipeClick: (Recipe) -> Unit
+    ) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(recipe: Recipe) {
             with(binding) {
@@ -38,6 +45,7 @@ class SearchListAdapter(private val glide: RequestManager) :
                     .circleCrop()
                     .into(recipeItemImage)
                 recipeItemTitle.text = recipe.title
+                root.setOnClickListener { recipeClick(recipe) }
             }
         }
 

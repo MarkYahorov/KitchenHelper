@@ -12,6 +12,7 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
@@ -39,7 +40,11 @@ class SearchRecipeFragment : Fragment() {
         SearchComponent.create(App.appComponent, this)
     }
     private val searchAdapter by lazy {
-        SearchListAdapter(Glide.with(this))
+        SearchListAdapter(Glide.with(this)) {
+            val action =
+                SearchRecipeFragmentDirections.actionSearchRecipeFragmentToIngredientScreen(it.id)
+            findNavController().navigate(action)
+        }
     }
     private val methodManager by lazy {
         requireContext().getSystemService(Context.INPUT_METHOD_SERVICE) as? InputMethodManager
@@ -106,9 +111,7 @@ class SearchRecipeFragment : Fragment() {
 
         lifecycleScope.launch {
             searchViewModel.recipesFlow.collectLatest { data ->
-                data?.let {
-                    searchAdapter.submitData(it)
-                }
+                data?.let { searchAdapter.submitData(it) }
             }
         }
         lifecycleScope.launch {
@@ -174,7 +177,7 @@ class SearchRecipeFragment : Fragment() {
 
     private fun setSearchBtnClickListener() {
         with(viewBinding) {
-            searchBtn.setOnClickListener {
+            searchRecipeBtn.setOnClickListener {
                 if (searchFragmentEditText.text.isBlank()) {
                     getRecipes()
                     viewBinding.searchRecycler.scrollToPosition(FIRST_POSITION)
@@ -207,7 +210,7 @@ class SearchRecipeFragment : Fragment() {
             searchFragmentEditText.removeTextChangedListener(queryTextWatcher)
             searchReadyTimeEditText.removeTextChangedListener(timeTextWatcher)
             equipmentEditText.removeTextChangedListener(equipmentTextWatcher)
-            searchBtn.setOnClickListener(null)
+            searchRecipeBtn.setOnClickListener(null)
             searchCaloriesSeekBar.setOnRangeSeekBarChangeListener(null)
         }
         if (requireActivity().isFinishing) {

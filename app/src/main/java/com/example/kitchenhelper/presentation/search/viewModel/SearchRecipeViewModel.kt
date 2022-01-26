@@ -39,7 +39,6 @@ class SearchRecipeViewModel @Inject constructor(
                     }
                     .catch { handleError(it) }
                     .collect { handleResult(it) }
-
             }
         }
     }

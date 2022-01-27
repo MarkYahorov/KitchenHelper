@@ -7,7 +7,20 @@
 
     <fragment
         android:id="@+id/searchVideoFragment"
-        android:name="com.example.kitchenhelper.SearchVideoFragment"
+        android:name="com.example.kitchenhelper.presentation.searchVideo.screen.SearchVideoFragment"
         android:label="fragment_search_video"
-        tools:layout="@layout/fragment_search_video" />
+        tools:layout="@layout/fragment_search_video" >
+        <action
+            android:id="@+id/action_searchVideoFragment_to_videoInfoFragment"
+            app:destination="@id/videoInfoFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/videoInfoFragment"
+        android:name="com.example.kitchenhelper.VideoInfoFragment"
+        android:label="fragment_video_info"
+        tools:layout="@layout/fragment_video_info" >
+        <argument
+            android:name="youTubeId"
+            app:argType="string" />
+    </fragment>
 </navigation>

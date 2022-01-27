@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".SearchVideoFragment">
+    tools:context=".presentation.searchVideo.screen.SearchVideoFragment">
 
     <EditText
         android:id="@+id/search_video_edit_text"

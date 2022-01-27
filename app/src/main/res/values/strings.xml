@@ -11,6 +11,8 @@
     <string name="calories">Calories</string>
     <string name="max_ready_time">Max ready time</string>
     <string name="equipment">Equipment</string>
+    <string name="recipes">Recipes</string>
+    <string name="video_recipes">Video</string>
 
     <plurals name="minutes">
         <item quantity="one">%d minute</item>

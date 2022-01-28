@@ -1,11 +1,13 @@
 package com.example.kitchenhelper.core
 
+import android.app.Activity
 import android.content.res.Resources
 import android.text.Editable
 import android.text.TextWatcher
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import com.google.android.youtube.player.YouTubeBaseActivity
 
 fun IntArray.toFloatArray(): FloatArray {
     val floatList = mutableListOf<Float>()
@@ -27,7 +29,12 @@ inline fun <reified myViewModel : ViewModel> createViewModel(
     return ViewModelProvider(fragment, factory)[viewModel::class.java]
 }
 
-fun getQuantityString(pluralsId: Int, value: Int, firstInfo: String, resources: Resources?): String {
+fun getQuantityString(
+    pluralsId: Int,
+    value: Int,
+    firstInfo: String,
+    resources: Resources?
+): String {
     return StringBuilder()
         .append(firstInfo)
         .append(" : ")

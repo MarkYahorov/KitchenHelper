@@ -11,7 +11,7 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.example.kitchenhelper.databinding.SearchVideoItemBinding
 import com.example.kitchenhelper.presentation.searchVideo.models.Video
 
-class SearchVideoAdapter(private val glide: RequestManager) :
+class SearchVideoAdapter(private val glide: RequestManager, private val onClick: (Video) -> Unit) :
     PagingDataAdapter<Video, SearchVideoAdapter.ViewHolder>(DiffCallback()) {
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
@@ -23,7 +23,7 @@ class SearchVideoAdapter(private val glide: RequestManager) :
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val binding =
             SearchVideoItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-        return ViewHolder(binding, glide)
+        return ViewHolder(binding, glide, onClick)
     }
 
     override fun onViewRecycled(holder: ViewHolder) {
@@ -34,7 +34,8 @@ class SearchVideoAdapter(private val glide: RequestManager) :
 
     class ViewHolder(
         private val viewBinding: SearchVideoItemBinding,
-        private val glide: RequestManager
+        private val glide: RequestManager,
+        private val onClick: (Video) -> Unit
     ) : RecyclerView.ViewHolder(viewBinding.root) {
 
         fun bind(video: Video) {
@@ -43,6 +44,7 @@ class SearchVideoAdapter(private val glide: RequestManager) :
                     .into(searchVideoItemImage)
                 searchVideoItemTitle.text = video.title
                 searchVideoItemRating.text = video.rating.toString()
+                root.setOnClickListener { onClick(video) }
             }
         }
 

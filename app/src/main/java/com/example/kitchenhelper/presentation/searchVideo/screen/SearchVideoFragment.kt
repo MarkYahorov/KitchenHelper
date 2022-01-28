@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AlertDialog
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.example.kitchenhelper.App
@@ -27,7 +28,11 @@ class SearchVideoFragment : Fragment() {
         SearchVideoComponent.create(App.appComponent, this)
     }
     private val searchVideoAdapter by lazy {
-        SearchVideoAdapter(Glide.with(this))
+        SearchVideoAdapter(Glide.with(this)) {
+            val action =
+                SearchVideoFragmentDirections.actionSearchVideoFragmentToVideoInfoFragment(it.youTubeId)
+            findNavController().navigate(action)
+        }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -68,7 +73,7 @@ class SearchVideoFragment : Fragment() {
         AlertDialog.Builder(requireContext())
             .setTitle(R.string.error)
             .setMessage(message)
-            .setPositiveButton(R.string.ok) { dialog,_ ->
+            .setPositiveButton(R.string.ok) { dialog, _ ->
                 dialog.dismiss()
             }
             .show()
